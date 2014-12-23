@@ -1,0 +1,11 @@
+<% return if headers.none? %>
+
+<fieldset>
+  <legend>Headers</legend>
+  <%= f.fields_for :headers do |hf| %>
+    <% headers.each do |h| %>
+      <%= hf.label h.name, h.name + ":" %>
+      <%= hf.text_field h.name %>
+    <% end %>
+  <% end %>
+</fieldset>

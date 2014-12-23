@@ -1,0 +1,13 @@
+<% return if params.none? %>
+
+<fieldset>
+  <legend>URL Parameters</legend>
+  <%= f.fields_for :url_params do |pf| %>
+    <% params.each do |p| %>
+      <p>
+        <%= pf.label p, p + ":" %>
+        <%= pf.text_field p %>
+      </p>
+    <% end %>
+  <% end %>
+</fieldset>

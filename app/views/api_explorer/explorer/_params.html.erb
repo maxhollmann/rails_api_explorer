@@ -1,0 +1,14 @@
+<div class="params">
+  <% params.each do |param| %>
+    <div class="param">
+      <%= param.name %>:
+      <% if param.type == :hash %>
+        {
+          <%= render 'params', params: param.children %>
+        }
+      <% else %>
+        <small><%= param.type %></small>
+      <% end %>
+    </div>
+  <% end %>
+</div>

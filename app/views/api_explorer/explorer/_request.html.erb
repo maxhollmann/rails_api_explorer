@@ -1,0 +1,19 @@
+<div class="request">
+  <h3><%= req.method.to_s.upcase %> <%= req.path %></h3>
+
+  <% if req.params.any? %>
+    <h4>Parameters</h4>
+    <%= render 'params', params: req.params %>
+  <% end %>
+
+  <%= form_for :request, url: request_path do |f| %>
+    <%= f.hidden_field :method, value: req.method %>
+    <%= f.hidden_field :path, value: req.url %>
+    <%= render 'api_explorer/explorer/form/url_params', params: req.url_params, f: f %>
+    <%= render 'api_explorer/explorer/form/headers', headers: req.headers, f: f %>
+    <%= render 'api_explorer/explorer/form/params', name: 'params', params: req.params, f: f %>
+    <%= f.submit "Send" %>
+  <% end %>
+  <p class="status"></p>
+  <pre class="response"></pre>
+</div>
