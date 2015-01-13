@@ -2,7 +2,7 @@ require "api_explorer/engine"
 require "api_explorer/description"
 
 module ApiExplorer
-  mattr_accessor :description, :base_url, :global_headers, :global_params
+  mattr_accessor :description, :base_url, :global_headers, :global_params, :auth
 
   def self.describe(&block)
     proxy = RequestsProxy.new
