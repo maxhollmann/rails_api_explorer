@@ -39,11 +39,12 @@ module ApiExplorer
   end
 
   class Header
-    def initialize(name)
+    def initialize(name, options = {})
       self.name = name.to_s
+      self.source = options[:source] || {}
     end
 
-    attr_accessor :name, :global
+    attr_accessor :name, :global, :source
   end
 
   class Description

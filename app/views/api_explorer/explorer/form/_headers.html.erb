@@ -5,8 +5,11 @@
   <%= f.fields_for :headers do |hf| %>
     <% headers.each do |h| %>
       <% if h.global %>
-        <%= hf.label h.name, h.name + " (global)" %>
-        <%= hf.hidden_field h.name, class: "global header", data: { name: h.name } %>
+        <% if true %>
+          <%= hf.label h.name, h.name %>
+          <%= raw " (<a class='global-link' href='#global-header-#{h.name}'>global</a>)" %>
+          <%= hf.hidden_field h.name, class: "global header", data: { name: h.name } %>
+        <% end %>
       <% else %>
         <%= hf.label h.name, h.name + ":" %>
         <%= hf.text_field h.name %>

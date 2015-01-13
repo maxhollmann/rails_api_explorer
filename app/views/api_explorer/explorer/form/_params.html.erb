@@ -1,5 +1,7 @@
 <%= f.fields_for name do |pf| %>
-  <% params.each do |p| %>
-    <%= render 'api_explorer/explorer/form/param', f: pf, p: p %>
-  <% end %>
+  <div class="param-inputs">
+    <% params.each do |p| %>
+      <%= render 'api_explorer/explorer/form/param', f: pf, p: p %>
+    <% end %>
+  </div>
 <% end %>

@@ -13,8 +13,8 @@ module ApiExplorer
   class ArrayProxy
     attr_accessor :out
 
-    def initialize(objects = nil)
-      self.out = Array(objects)
+    def initialize(objects = [])
+      self.out = Array(objects.clone)
     end
 
     def collect(&block)
@@ -23,14 +23,15 @@ module ApiExplorer
 
     def use_header(name)
       obj = ApiExplorer.global_headers.find { |h| h.name == name }
-      out << obj if obj
+      out << obj if obj && !out.include?(obj)
     end
     def use_param(name)
       obj = ApiExplorer.global_params.find { |p| p.name == name }
-      out << obj if obj
+      out << obj if obj && !out.include?(obj)
     end
 
-    def dont_use(obj)
+    def dont_use_header(name)
+      obj = ApiExplorer.global_headers.find { |h| h.name == name }
       out.delete(obj)
     end
 
@@ -47,13 +48,13 @@ module ApiExplorer
     class Methods
       def self.request(method, path, &block)
         if block_given?
-          proxy = ParamsProxy.new
+          proxy = ParamsProxy.new(ApiExplorer.global_headers + ApiExplorer.global_params)
           proxy.collect(&block)
           params = proxy.params
           headers = proxy.headers
         else
-          params = []
-          headers = []
+          params = ApiExplorer.global_params
+          headers = ApiExplorer.global_headers
         end
         Request.new(method, path, params, headers)
       end
@@ -120,8 +121,8 @@ module ApiExplorer
         param(name, :integer)
       end
 
-      def self.header(name)
-        Header.new(name)
+      def self.header(name, options = {})
+        Header.new(name, options)
       end
     end
   end

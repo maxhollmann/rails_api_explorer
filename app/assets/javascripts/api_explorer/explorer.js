@@ -4,9 +4,26 @@ $(function() {
     window.responses = {};
 
     $(".global-input.header").change(function() {
-        name = $(this).attr("data-name");
-        $(".global.header[data-name=" + name + "]").val($(this).val());
+        updateGlobals();
     });
+    $(".global-link").click(function() {
+        $($(this).attr("href")).find("input").focus();
+    });
+
+    function updateGlobals() {
+        $(".global-input.header").each(function() {
+            name = $(this).attr("data-name");
+            $(".global.header[data-name=" + name + "]").val($(this).val());
+        });
+    }
+
+    function setValuesFromRequest(request) {
+        $("[data-source-request='" + request + "']").each(function(input) {
+            v = eval("responses['" + request + "']" + $(this).attr("data-source-accessor"));
+            $(this).val(v);
+        });
+        updateGlobals();
+    }
 
     $("form").submit(function(event) {
         event.preventDefault();
@@ -32,7 +49,9 @@ $(function() {
         }).always(function(data, status, error) {
             if(status == 'success') {
                 code = 200;
-                window.responses[req.method + ":" + req.path] = data;
+                var key = req.method.toUpperCase() + ":" + req.path.replace(api_explorer_base_url, "");
+                window.responses[key] = data;
+                setValuesFromRequest(key);
             } else {
                 code = data.status;
                 data = $.parseJSON(data.responseText);

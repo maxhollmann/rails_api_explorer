@@ -1,8 +1,11 @@
 <p>
   <% if p.type == :hash %>
     <fieldset>
-      <legend><%= p.name %></legend>
-      <%= render 'api_explorer/explorer/form/params', name: p.name, params: p.children, f: f %>
+      <legend><%= p.name %> {</legend>
+      <div class="param-inputs">
+        <%= render 'api_explorer/explorer/form/params', name: p.name, params: p.children, f: f %>
+      </div>
+      }
     </fieldset>
   <% else %>
     <%= f.label p.name, p.name + ":" %>
