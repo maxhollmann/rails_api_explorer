@@ -4,8 +4,13 @@
   <legend>Headers</legend>
   <%= f.fields_for :headers do |hf| %>
     <% headers.each do |h| %>
-      <%= hf.label h.name, h.name + ":" %>
-      <%= hf.text_field h.name %>
+      <% if h.global %>
+        <%= hf.label h.name, h.name + " (global)" %>
+        <%= hf.hidden_field h.name, class: "global header", data: { name: h.name } %>
+      <% else %>
+        <%= hf.label h.name, h.name + ":" %>
+        <%= hf.text_field h.name %>
+      <% end %>
     <% end %>
   <% end %>
 </fieldset>

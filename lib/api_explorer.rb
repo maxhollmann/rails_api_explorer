@@ -2,12 +2,12 @@ require "api_explorer/engine"
 require "api_explorer/description"
 
 module ApiExplorer
-  mattr_accessor :description, :base_url
+  mattr_accessor :description, :base_url, :global_headers, :global_params
 
   def self.describe(&block)
     proxy = RequestsProxy.new
     proxy.collect(&block)
-    self.description = Description.new(proxy.out)
+    self.description = Description.new(proxy.out.compact)
   end
 
   class ArrayProxy
@@ -21,8 +21,13 @@ module ApiExplorer
       instance_eval(&block)
     end
 
-    def use(obj)
-      out << obj
+    def use_header(name)
+      obj = ApiExplorer.global_headers.find { |h| h.name == name }
+      out << obj if obj
+    end
+    def use_param(name)
+      obj = ApiExplorer.global_params.find { |p| p.name == name }
+      out << obj if obj
     end
 
     def dont_use(obj)
@@ -51,6 +56,14 @@ module ApiExplorer
           headers = []
         end
         Request.new(method, path, params, headers)
+      end
+
+      def self.global(&block)
+        proxy = ParamsProxy.new
+        proxy.collect(&block)
+        ApiExplorer.global_headers = proxy.headers.map { |h| h.global = true; h }
+        ApiExplorer.global_params = proxy.params.map { |p| p.global = true; p }
+        nil
       end
 
       def self.get(path, &block)

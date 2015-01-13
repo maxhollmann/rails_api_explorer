@@ -35,7 +35,7 @@ module ApiExplorer
       end
     end
 
-    attr_accessor :name, :type, :children
+    attr_accessor :name, :type, :children, :global
   end
 
   class Header
@@ -43,7 +43,7 @@ module ApiExplorer
       self.name = name.to_s
     end
 
-    attr_accessor :name
+    attr_accessor :name, :global
   end
 
   class Description

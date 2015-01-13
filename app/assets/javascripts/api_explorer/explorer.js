@@ -3,6 +3,11 @@ $(function() {
 
     window.responses = {};
 
+    $(".global-input.header").change(function() {
+        name = $(this).attr("data-name");
+        $(".global.header[data-name=" + name + "]").val($(this).val());
+    });
+
     $("form").submit(function(event) {
         event.preventDefault();
 

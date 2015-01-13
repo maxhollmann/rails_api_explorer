@@ -8,9 +8,9 @@
     <%= f.label p.name, p.name + ":" %>
 
     <% if p.name == 'password' %>
-      <%= f.password_field p.name %>
+      <%= f.password_field p.name, placeholder: p.type %>
     <% else %>
-      <%= f.text_field p.name %>
+      <%= f.text_field p.name, placeholder: p.type %>
     <% end %>
   <% end %>
 </p>

@@ -1,0 +1,6 @@
+<h3>Global headers</h3>
+
+<% ApiExplorer.global_headers.each do |h| %>
+  <%= label_tag h.name, h.name %>
+  <%= text_field_tag h.name, "", class: "global-input header", data: { name: h.name } %>
+<% end %>
