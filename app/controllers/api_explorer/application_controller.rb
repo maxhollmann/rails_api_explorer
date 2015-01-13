@@ -1,4 +1,2 @@
-module ApiExplorer
-  class ApplicationController < ActionController::Base
-  end
+class ApiExplorer::ApplicationController < ApplicationController
 end

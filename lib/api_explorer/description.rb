@@ -2,13 +2,14 @@ require 'httparty'
 
 module ApiExplorer
   class Request
-    attr_accessor :method, :path, :params, :headers
+    attr_accessor :method, :path, :params, :headers, :description
 
-    def initialize(method, path, params = [], headers = [])
-      self.method  = method.to_s
-      self.path    = path.to_s
-      self.params  = Array(params)
-      self.headers = Array(headers)
+    def initialize(method, path, params = [], headers = [], description = "")
+      self.method      = method.to_s
+      self.path        = path.to_s
+      self.params      = Array(params)
+      self.headers     = Array(headers)
+      self.description = description
     end
 
     def url
@@ -19,14 +20,25 @@ module ApiExplorer
       path.scan(/:[a-zA-Z_\-]+/).map { |s| s[1..s.size] }
     end
 
+    def url_segments
+      path.scan(/(:[a-zA-Z_\-]+)|([^:]+)/).map do |param, normal|
+        if param
+          [:param, param[1..param.size]]
+        else
+          [:normal, normal]
+        end
+      end
+    end
+
     def perform(params = {}, headers = {})
       RequestPerformer.new(self).perform(params, headers)
     end
   end
 
   class Parameter
-    def initialize(name, type_or_children)
+    def initialize(name, type_or_children, description)
       self.name = name.to_s
+      self.description = description
       if type_or_children.is_a?(Array)
         self.type = :hash
         self.children = type_or_children
@@ -35,7 +47,7 @@ module ApiExplorer
       end
     end
 
-    attr_accessor :name, :type, :children, :global
+    attr_accessor :name, :type, :children, :global, :description
   end
 
   class Header

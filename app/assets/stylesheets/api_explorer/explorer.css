@@ -13,6 +13,31 @@
 .param-inputs input {
     border: none;
 }
+h3 input {
+    border: none;
+    width: 120px;
+    text-align: center;
+}
+
+[contentEditable=true]:empty:not(:focus):before{
+    content: attr(data-ph);
+}
+h3 [contentEditable=true]:empty {
+    color: #AAAAAA;
+}
+
+legend {
+    margin-bottom: 5px;
+}
+.param-inputs legend {
+    font-size: 100%;
+    border: none;
+    margin-bottom: 0;
+}
+label {
+    font-weight: normal;
+    margin-bottom: 0;
+}
 
 .response {
   border: solid 1px black;
@@ -20,4 +45,12 @@
   padding: 20px;
   max-height: 400px;
   overflow: scroll;
+}
+
+.description {
+    font-size: 80%;
+}
+
+fieldset {
+    margin-bottom: 5px;
 }

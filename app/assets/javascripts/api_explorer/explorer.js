@@ -1,5 +1,60 @@
 $(function() {
-    $(".response").hide();
+    $.fn.serializeObject = function() {
+        var self = this,
+        json = {},
+        push_counters = {},
+        patterns = {
+            "validate": /^[a-zA-Z][a-zA-Z0-9_\-]*(?:\[(?:\d*|[a-zA-Z0-9_\-]+)\])*$/,
+            "key":      /[a-zA-Z0-9_\-]+|(?=\[\])/g,
+            "push":     /^$/,
+            "fixed":    /^\d+$/,
+            "named":    /^[a-zA-Z0-9_\-]+$/
+        };
+
+        this.build = function(base, key, value){
+            base[key] = value;
+            return base;
+        };
+        this.push_counter = function(key){
+            if(push_counters[key] === undefined){
+                push_counters[key] = 0;
+            }
+            return push_counters[key]++;
+        };
+        $.each($(this).serializeArray(), function(){
+            // skip invalid keys
+            if(!patterns.validate.test(this.name)){
+                return;
+            }
+            var k,
+            keys = this.name.match(patterns.key),
+            merge = this.value,
+            reverse_key = this.name;
+
+            while((k = keys.pop()) !== undefined){
+
+                // adjust reverse_key
+                reverse_key = reverse_key.replace(new RegExp("\\[" + k + "\\]$"), '');
+
+                // push
+                if(k.match(patterns.push)){
+                    merge = self.build([], self.push_counter(reverse_key), merge);
+                }
+                // fixed
+                else if(k.match(patterns.fixed)){
+                    merge = self.build([], k, merge);
+                }
+                // named
+                else if(k.match(patterns.named)){
+                    merge = self.build({}, k, merge);
+                }
+            }
+            json = $.extend(true, json, merge);
+        });
+        return json;
+    };
+
+    $(".output").hide();
 
     window.responses = {};
 
@@ -25,14 +80,17 @@ $(function() {
         updateGlobals();
     }
 
+    $("h3 [contenteditable=true]").keyup(function() {
+        $(this).parents("form").first().find("input[name='request[url_params][" + $(this).attr("data-name") + "]']").val($(this).text());
+    });
+
     $("form").submit(function(event) {
         event.preventDefault();
 
         var form = $(this);
         var req = form.serializeObject().request;
-        form.parent(".request").children(".status").html("Requesting...");
+        form.parent(".request").find(".status").html("Requesting...");
 
-        console.log(req);
         path = req.path;
         if (req.url_params) {
             $.each(req.url_params, function(p, v) {
@@ -56,74 +114,9 @@ $(function() {
                 code = data.status;
                 data = $.parseJSON(data.responseText);
             }
-            form.parent(".request").children(".status").text(code);
-            form.parent(".request").children(".response").text(JSON.stringify(data, null, 4)).show();
+            form.parents(".request").find(".status").text(code);
+            form.parents(".request").find(".response").text(JSON.stringify(data, null, 4));
+            form.parents(".request").find(".output").show();
         });
     });
 });
-
-
-$.fn.serializeObject = function(){
-
-    var self = this,
-    json = {},
-    push_counters = {},
-    patterns = {
-        "validate": /^[a-zA-Z][a-zA-Z0-9_\-]*(?:\[(?:\d*|[a-zA-Z0-9_\-]+)\])*$/,
-        "key":      /[a-zA-Z0-9_\-]+|(?=\[\])/g,
-        "push":     /^$/,
-        "fixed":    /^\d+$/,
-        "named":    /^[a-zA-Z0-9_\-]+$/
-    };
-
-
-    this.build = function(base, key, value){
-        base[key] = value;
-        return base;
-    };
-
-    this.push_counter = function(key){
-        if(push_counters[key] === undefined){
-            push_counters[key] = 0;
-        }
-        return push_counters[key]++;
-    };
-
-    $.each($(this).serializeArray(), function(){
-
-        // skip invalid keys
-        if(!patterns.validate.test(this.name)){
-            return;
-        }
-
-        var k,
-        keys = this.name.match(patterns.key),
-        merge = this.value,
-        reverse_key = this.name;
-
-        while((k = keys.pop()) !== undefined){
-
-            // adjust reverse_key
-            reverse_key = reverse_key.replace(new RegExp("\\[" + k + "\\]$"), '');
-
-            // push
-            if(k.match(patterns.push)){
-                merge = self.build([], self.push_counter(reverse_key), merge);
-            }
-
-            // fixed
-            else if(k.match(patterns.fixed)){
-                merge = self.build([], k, merge);
-            }
-
-            // named
-            else if(k.match(patterns.named)){
-                merge = self.build({}, k, merge);
-            }
-        }
-
-        json = $.extend(true, json, merge);
-    });
-
-    return json;
-};

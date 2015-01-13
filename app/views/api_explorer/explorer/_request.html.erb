@@ -1,17 +1,27 @@
-<div class="request">
-  <h3><%= req.method.to_s.upcase %> <%= req.path %></h3>
-
-  <% if false %>
-  <% if req.params.any? %>
-    <h4>Parameters</h4>
-    <%= render 'params', params: req.params %>
-  <% end %>
-  <% end %>
+<div class="row request">
 
   <%= form_for :request, url: request_path do |f| %>
-    <%= f.hidden_field :method, value: req.method %>
-    <%= f.hidden_field :path, value: req.url %>
-    <%= render 'api_explorer/explorer/form/url_params', params: req.url_params, f: f %>
+  <%= f.hidden_field :method, value: req.method %>
+  <%= f.hidden_field :path, value: req.url %>
+
+  <%= f.fields_for :url_params do |pf| %>
+    <h3>
+      <%= req.method.to_s.upcase %>
+      <% req.url_segments.each do |type, s| %>
+        <% if type == :param %>
+          <%= pf.text_field s, placeholder: ":#{s}" %>
+          <!-- span contenteditable="true" data-ph="<%= ":#{s}" %>" data-name="<%= s %>"></span -->
+        <% else %>
+          <%= raw s %>
+        <% end %>
+      <% end %>
+    </h3>
+  <% end %>
+
+  <div class="col-sm-6">
+    <p><%= simple_format req.description %></p>
+
+    <!-- %= render 'api_explorer/explorer/form/url_params', params: req.url_params, f: f % -->
     <%= render 'api_explorer/explorer/form/headers', headers: req.headers, f: f %>
     <% if req.params.any? %>
       <fieldset>
@@ -19,8 +29,12 @@
         <%= render 'api_explorer/explorer/form/params', name: 'params', params: req.params, f: f %>
       </fieldset>
     <% end %>
-    <%= f.submit "Send" %>
+    <%= f.submit "Send", class: "btn btn-primary" %>
+  </div>
   <% end %>
-  <p class="status"></p>
-  <pre class="response"></pre>
+
+  <div class="col-sm-6 output">
+    <p class="status"></p>
+    <pre class="response"></pre>
+  </div>
 </div>

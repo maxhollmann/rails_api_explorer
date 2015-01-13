@@ -1,7 +1,8 @@
-<p>
+<div>
   <% if p.type == :hash %>
     <fieldset>
-      <legend><%= p.name %> {</legend>
+      <legend><%= p.name %>: {</legend>
+      <div class="description"><%= simple_format p.description %></div>
       <div class="param-inputs">
         <%= render 'api_explorer/explorer/form/params', name: p.name, params: p.children, f: f %>
       </div>
@@ -15,5 +16,6 @@
     <% else %>
       <%= f.text_field p.name, placeholder: p.type %>
     <% end %>
+    <div class="description"><%= p.description %></div>
   <% end %>
-</p>
+</div>
