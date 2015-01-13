@@ -6,9 +6,15 @@
 <%= javascript_include_tag "api_explorer/application" %>
 
 <div class="container">
+  <div class="contents">
+    <% @description.requests.each_with_index do |req, i| %>
+      <p><a href="#request-<%= i %>"><%= req.method.upcase %> <%= req.path %></a>
+    <% end %>
+  </div>
+
   <%= render 'globals' %>
 
-  <% @description.requests.each do |req| %>
-    <%= render 'request', req: req %>
+  <% @description.requests.each_with_index do |req, i| %>
+    <%= render 'request', req: req, id: i %>
   <% end %>
 </div>

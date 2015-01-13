@@ -1,4 +1,4 @@
-<div class="row request">
+<div class="row request" id="request-<%= id %>">
 
   <%= form_for :request, url: request_path do |f| %>
   <%= f.hidden_field :method, value: req.method %>
