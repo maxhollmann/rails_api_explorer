@@ -72,7 +72,7 @@ mount ApiExplorer::Engine => '/api/explore', as: 'api_explorer'
 If you don't want the public to access the explorer, you can provide a lambda that will be executed in the `before_filter` of the controller:
 
 ```ruby
-ApiExplorer.auth = lambda do |ctrl|
+ApiExplorer.auth = lambda do
   authenticate_user!
   current_user.admin? or redirect_to main_app.root_path
 end
