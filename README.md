@@ -23,6 +23,7 @@ Or install it yourself:
 
 Describe your API in `config/initializers/api_explorer.rb`:
 
+    ```ruby
     ApiExplorer.base_url = case Rails.env
                            when 'development'
                              'http://localhost:3000/api/'
@@ -59,18 +60,23 @@ Describe your API in `config/initializers/api_explorer.rb`:
         end
       end
     end
+    ```
 
 Then mount it in your `routes.rb`:
 
+    ```ruby
     mount ApiExplorer::Engine => '/api/explore', as: 'api_explorer'
+    ```
 
 
 If you don't want the public to access the explorer, you can provide a lambda that will be executed in the `before_filter` of the controller:
 
+    ```ruby
     ApiExplorer.auth = lambda do |ctrl|
       authenticate_user!
       current_user.admin? or redirect_to main_app.root_path
     end
+    ```
 
 The explorer is rendered within your application layout and uses bootstrap 3 classes, so it's prettier if you have that included.
 Bootstrap is optional, but it requires jQuery.
