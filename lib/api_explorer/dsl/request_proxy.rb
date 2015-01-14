@@ -28,7 +28,7 @@ module ApiExplorer
       end
     end
 
-    def group(name, options = {}, &block)
+    def struct(name, options = {}, &block)
       param(name, nil, options, &block)
     end
     def string(name, options = {}, &block)

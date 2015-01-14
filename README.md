@@ -2,9 +2,8 @@
 
 Provides a simple DSL to describe your API, and let's you mount an interactive sandbox to explore and test it.
 
-## Usage
-
-
+This project is in the very early stages of development, and I mainly extend it to scratch my own itches.
+Pull requests are more than welcome!
 
 ## Installation
 
@@ -19,6 +18,54 @@ And then execute:
 Or install it yourself:
 
     $ gem install rails_api_explorer
+
+## Usage
+
+Describe your API in `config/initializers/api_explorer.rb`:
+
+    ApiExplorer.base_url = case Rails.env
+                           when 'development'
+                             'http://localhost:3000/api/'
+                           when 'production'
+                             'http://example.com/api/'
+                           end
+
+    ApiExplorer.describe do
+      shared do
+        header 'X-AUTH-TOKEN', source: { request: "POST:users/sign_in", accessor: "['auth_token']"}
+        # The source option makes the value get set automatically when a request to the given url succeeds.
+        # The accessor is evaluated on the JSON object returned by the server.
+      end
+
+      post 'users/sign_in' do
+        desc "Describe this action."
+
+        exclude_shared_header 'X-AUTH-TOKEN'
+
+        struct 'user_login' do
+          string 'email'
+          string 'password'
+        end
+      end
+
+      get 'posts' do
+        integer 'page', desc: "Optional."
+      end
+
+      patch 'posts/:id' do
+        struct 'post' do
+          string 'title'
+          string 'body'
+        end
+      end
+    end
+
+If you don't want the public to access the explorer, you can provide a lambda that will be executed in the `before_filter` of the controller:
+
+    ApiExplorer.auth = lambda do |ctrl|
+      authenticate_user!
+      current_user.admin? or redirect_to main_app.root_path
+    end
 
 ## Contributing
 
