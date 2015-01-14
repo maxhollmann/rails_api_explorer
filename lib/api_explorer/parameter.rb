@@ -11,6 +11,6 @@ module ApiExplorer
       end
     end
 
-    attr_accessor :name, :type, :children, :global, :description
+    attr_accessor :name, :type, :children, :description
   end
 end

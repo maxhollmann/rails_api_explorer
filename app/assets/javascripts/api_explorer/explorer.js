@@ -58,17 +58,17 @@ $(function() {
 
     window.responses = {};
 
-    $(".global-input.header").change(function() {
-        updateGlobals();
+    $(".shared-input.header").change(function() {
+        updateShareds();
     });
-    $(".global-link").click(function() {
+    $(".shared-link").click(function() {
         $($(this).attr("href")).find("input").focus();
     });
 
-    function updateGlobals() {
-        $(".global-input.header").each(function() {
+    function updateShareds() {
+        $(".shared-input.header").each(function() {
             name = $(this).attr("data-name");
-            $(".global.header[data-name=" + name + "]").val($(this).val());
+            $(".shared.header[data-name=" + name + "]").val($(this).val());
         });
     }
 
@@ -77,7 +77,7 @@ $(function() {
             v = eval("responses['" + request + "']" + $(this).attr("data-source-accessor"));
             $(this).val(v);
         });
-        updateGlobals();
+        updateShareds();
     }
 
     $("h3 [contenteditable=true]").keyup(function() {

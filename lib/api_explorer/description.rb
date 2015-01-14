@@ -1,9 +1,11 @@
 module ApiExplorer
   class Description
-    attr_accessor :requests
+    attr_accessor :requests, :shared_headers, :shared_params
 
-    def initialize(requests)
-      self.requests = requests
+    def initialize(requests, shared_headers, shared_params)
+      self.requests       = requests
+      self.shared_headers = shared_headers
+      self.shared_params  = shared_params
     end
 
     def find_request(method, path)

@@ -1,13 +1,14 @@
 module ApiExplorer
   class Request
-    attr_accessor :method, :path, :params, :headers, :description
+    attr_accessor :method, :path, :params, :headers, :description, :excluded_shared_headers
 
-    def initialize(method, path, params = [], headers = [], description = "")
-      self.method      = method.to_s
-      self.path        = path.to_s
-      self.params      = Array(params)
-      self.headers     = Array(headers)
-      self.description = description
+    def initialize(method, path, params = [], headers = [], description = "", excluded_shared_headers = [])
+      self.method                  = method.to_s
+      self.path                    = path.to_s
+      self.params                  = Array(params)
+      self.headers                 = Array(headers)
+      self.description             = description
+      self.excluded_shared_headers = Array(excluded_shared_headers)
     end
 
     def url

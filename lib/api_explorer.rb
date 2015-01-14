@@ -6,11 +6,11 @@ require "api_explorer/request"
 require "api_explorer/dsl"
 
 module ApiExplorer
-  mattr_accessor :description, :base_url, :global_headers, :global_params, :auth
+  mattr_accessor :description, :base_url, :shared_headers, :shared_params, :auth
 
   def self.describe(&block)
-    proxy = RequestsProxy.new
+    proxy = DescriptionProxy.new
     proxy.collect(&block)
-    self.description = Description.new(proxy.out.compact)
+    self.description = Description.new(proxy.requests, proxy.shared_headers, proxy.shared_params)
   end
 end

@@ -12,7 +12,7 @@
     <% end %>
   </div>
 
-  <%= render 'globals' %>
+  <%= render 'shared' %>
 
   <% @description.requests.each_with_index do |req, i| %>
     <%= render 'request', req: req, id: i %>

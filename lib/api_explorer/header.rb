@@ -5,6 +5,6 @@ module ApiExplorer
       self.source = options[:source] || {}
     end
 
-    attr_accessor :name, :global, :source
+    attr_accessor :name, :source
   end
 end

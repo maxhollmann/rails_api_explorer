@@ -1,64 +1,48 @@
 module ApiExplorer
-  class RequestProxy < BaseProxy
-    attr_accessor :description
+  class RequestProxy < BaseProxy2
+    attr_accessor :description, :headers, :params,
+      :excluded_shared_headers
 
-    def methods
-      Methods
-    end
-
-    def params
-      out.select { |o| o.is_a?(Parameter) }
-    end
-    def headers
-      out.select { |o| o.is_a?(Header) }
+    def initialize(headers = [], params = [])
+      self.headers = headers
+      self.params  = params
+      self.excluded_shared_headers = []
     end
 
-    def use_header(name)
-      obj = ApiExplorer.global_headers.find { |h| h.name == name }
-      out << obj if obj && !out.include?(obj)
-    end
-    def use_param(name)
-      obj = ApiExplorer.global_params.find { |p| p.name == name }
-      out << obj if obj && !out.include?(obj)
-    end
-
-    def dont_use_header(name)
-      obj = ApiExplorer.global_headers.find { |h| h.name == name }
-      out.delete(obj)
+    def exclude_shared_header(name)
+      excluded_shared_headers << name
     end
 
     def desc(description)
       self.description = description
     end
 
-    class Methods
-      def self.param(name, type = nil, options = {}, &block)
-        desc = options.fetch(:desc, "")
-        if type.nil? && block_given?
-          proxy = RequestProxy.new
-          proxy.collect(&block)
-          Parameter.new(name, proxy.params, desc)
-        else
-          Parameter.new(name, type, desc)
-        end
+    def param(name, type = nil, options = {}, &block)
+      desc = options.fetch(:desc, "")
+      if type.nil? && block_given?
+        proxy = RequestProxy.new
+        proxy.collect(&block)
+        params << Parameter.new(name, proxy.params, desc)
+      else
+        params << Parameter.new(name, type, desc)
       end
+    end
 
-      def self.group(name, options = {}, &block)
-        param(name, nil, options, &block)
-      end
-      def self.string(name, options = {}, &block)
-        param(name, :string, options)
-      end
-      def self.boolean(name, options = {}, &block)
-        param(name, :boolean, options)
-      end
-      def self.integer(name, options = {}, &block)
-        param(name, :integer, options)
-      end
+    def group(name, options = {}, &block)
+      param(name, nil, options, &block)
+    end
+    def string(name, options = {}, &block)
+      param(name, :string, options)
+    end
+    def boolean(name, options = {}, &block)
+      param(name, :boolean, options)
+    end
+    def integer(name, options = {}, &block)
+      param(name, :integer, options)
+    end
 
-      def self.header(name, options = {})
-        Header.new(name, options)
-      end
+    def header(name, options = {})
+      headers << Header.new(name, options)
     end
   end
 end

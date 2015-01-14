@@ -1,19 +1,25 @@
-<% return if headers.none? %>
+<% if request.excluded_shared_headers.any? %>
+  <p>Note: Does <strong>not</strong> use these shared headers: <%= request.excluded_shared_headers.join(", ") %>.</p>
+<% end %>
 
-<fieldset>
-  <legend>Headers</legend>
-  <%= f.fields_for :headers do |hf| %>
-    <% headers.each do |h| %>
-      <% if h.global %>
-        <% if true %>
-          <%= hf.label h.name, h.name %>
-          <%= raw " (<a class='global-link' href='#global-header-#{h.name}'>global</a>)" %>
-          <%= hf.hidden_field h.name, class: "global header", data: { name: h.name } %>
-        <% end %>
-      <% else %>
+<%= f.fields_for :headers do |hf| %>
+  <% @description.shared_headers.each do |h| %>
+    <% next if request.excluded_shared_headers.include?(h.name) %>
+
+    <!--%= hf.label h.name, h.name %-->
+    <!--%= raw " (<a class='shared-link' href='#shared-header-#{h.name}'>shared</a>)" %-->
+    <%= hf.hidden_field h.name, class: "shared header", data: { name: h.name } %>
+  <% end %>
+<% end %>
+
+<% if request.headers.any? %>
+  <fieldset>
+    <legend>Headers</legend>
+    <%= f.fields_for :headers do |hf| %>
+      <% request.headers.each do |h| %>
         <%= hf.label h.name, h.name + ":" %>
         <%= hf.text_field h.name %>
       <% end %>
     <% end %>
-  <% end %>
-</fieldset>
+  </fieldset>
+<% end %>

@@ -14,4 +14,10 @@ module ApiExplorer
       out << methods.send(method, *args, &block)
     end
   end
+
+  class BaseProxy2
+    def collect(&block)
+      instance_eval(&block)
+    end
+  end
 end

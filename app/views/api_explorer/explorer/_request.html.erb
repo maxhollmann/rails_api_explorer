@@ -22,7 +22,7 @@
     <p><%= simple_format req.description %></p>
 
     <!-- %= render 'api_explorer/explorer/form/url_params', params: req.url_params, f: f % -->
-    <%= render 'api_explorer/explorer/form/headers', headers: req.headers, f: f %>
+    <%= render 'api_explorer/explorer/form/headers', request: req, f: f %>
     <% if req.params.any? %>
       <fieldset>
         <legend>Parameters</legend>

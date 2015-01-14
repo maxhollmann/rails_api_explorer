@@ -1,3 +1,3 @@
-require "api_explorer/dsl/array_proxy"
-require "api_explorer/dsl/requests_proxy"
-require "api_explorer/dsl/params_proxy"
+require "api_explorer/dsl/base_proxy"
+require "api_explorer/dsl/description_proxy"
+require "api_explorer/dsl/request_proxy"
