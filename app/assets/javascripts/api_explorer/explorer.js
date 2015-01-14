@@ -54,7 +54,7 @@ $(function() {
         return json;
     };
 
-    $(".output").hide();
+    $(".response").hide();
 
     window.responses = {};
 
@@ -112,11 +112,18 @@ $(function() {
                 setValuesFromRequest(key);
             } else {
                 code = data.status;
-                data = $.parseJSON(data.responseText);
+                try {
+                    data = $.parseJSON(data.responseText);
+                } catch(SyntaxError) {
+                }
             }
-            form.parents(".request").find(".status").text(code);
-            form.parents(".request").find(".response").text(JSON.stringify(data, null, 4));
-            form.parents(".request").find(".output").show();
+            if (code == 0) {
+                form.parents(".request").find(".status").text("Can't reach server");
+                form.parents(".request").find(".response").hide();
+            } else {
+                form.parents(".request").find(".status").text(code);
+                form.parents(".request").find(".response").text(JSON.stringify(data, null, 4)).show();
+            }
         });
     });
 });
