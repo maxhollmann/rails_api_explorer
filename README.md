@@ -9,15 +9,11 @@ Pull requests are more than welcome!
 
 Add this line to your application's Gemfile:
 
-    gem 'rails_api_explorer'
+    gem 'rails_api_explorer', github: 'maxhollmann/rails_api_explorer'
 
 And then execute:
 
     $ bundle
-
-Or install it yourself:
-
-    $ gem install rails_api_explorer
 
 ## Usage
 
