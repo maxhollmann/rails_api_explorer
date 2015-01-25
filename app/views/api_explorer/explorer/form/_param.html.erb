@@ -1,21 +1,28 @@
-<div>
+<div class="param" data-param-name="<%= p.name %>" data-send="true">
   <% if p.type == :hash %>
     <fieldset>
-      <legend><%= p.name %>: {</legend>
-      <div class="description"><%= simple_format p.description %></div>
-      <div class="param-inputs">
-        <%= render 'api_explorer/explorer/form/params', name: p.name, params: p.children, f: f %>
-      </div>
+      <legend>
+        <span class="name"><%= p.name %></span>:
+        {
+        <a class="send-toggle">don't send</a>
+      </legend>
+        <div class="description"><%= simple_format p.description %></div>
+        <div class="param-inputs">
+          <%= render 'api_explorer/explorer/form/params', name: p.name, params: p.children, f: f %>
+        </div>
       }
     </fieldset>
   <% else %>
-    <%= f.label p.name, p.name + ":" %>
+    <%= f.label p.name do %>
+      <span class="name"><%= p.name %></span>:
+    <% end %>
 
     <% if p.name == 'password' %>
       <%= f.password_field p.name, placeholder: p.type %>
     <% else %>
       <%= f.text_field p.name, placeholder: p.type %>
     <% end %>
+    <a class="send-toggle">don't send</a>
     <div class="description"><%= p.description %></div>
   <% end %>
 </div>

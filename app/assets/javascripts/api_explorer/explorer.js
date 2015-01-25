@@ -1,4 +1,94 @@
 $(function() {
+    $(".hidden").hide().removeClass("hidden");
+
+    window.responses = {};
+
+    $(".shared-input.header").change(function() {
+        updateShareds();
+    });
+    $(".shared-link").click(function() {
+        $($(this).attr("href")).find("input").focus();
+    });
+
+    function updateShareds() {
+        $(".shared-input.header").each(function() {
+            name = $(this).attr("data-name");
+            $(".shared.header[data-name=" + name + "]").val($(this).val());
+        });
+    }
+
+    function setValuesFromRequest(request) {
+        $("[data-source-request='" + request + "']").each(function(input) {
+            v = eval("responses['" + request + "']" + $(this).attr("data-source-accessor"));
+            $(this).val(v);
+        });
+        updateShareds();
+    }
+
+    // Enable / disable params
+    $(".param input").prop("disabled", false); // Firefox autocomplete workaround
+    $(".send-toggle").click(function(event) {
+        event.preventDefault();
+
+        var setState = function(elements, state) {
+            elements.each(function(i, el) {
+                $(el).attr("data-send", state ? "true" : "false");
+                $(el).find("input").first().prop("disabled", !state);
+                $(el).find(".send-toggle").first().text(state ? "don't send" : "send");
+                $(el).find(".name").first().toggleClass("strikethrough", !state);
+            });
+        }
+
+        var param = $(this).closest(".param");
+        var send = param.attr("data-send") == "true" ? false : true;
+        setState(param.add(param.find(".param")), send); // enable or disable children
+        if (send)
+            setState(param.parents(".param"), true); // enable parents
+    });
+
+    $("form").submit(function(event) {
+        event.preventDefault();
+
+        var form = $(this);
+        var req = form.serializeObject().request;
+        form.closest(".request").find(".status").html("Requesting...");
+
+        path = req.path;
+        if (req.url_params) {
+            $.each(req.url_params, function(p, v) {
+                path = path.replace(":" + p, v);
+            });
+        }
+
+        $.ajax({
+            url: path,
+            type: req.method,
+            headers: req.headers,
+            data: req.params,
+            dataType: 'json'
+        }).always(function(data, status, error) {
+            if(status == 'success') {
+                code = 200;
+                var key = req.method.toUpperCase() + ":" + req.path.replace(api_explorer_base_url, "");
+                window.responses[key] = data;
+                setValuesFromRequest(key);
+            } else {
+                code = data.status;
+                try {
+                    data = $.parseJSON(data.responseText);
+                } catch(SyntaxError) {}
+            }
+            if (code == 0) {
+                form.closest(".request").find(".status").text("Can't reach server");
+                form.closest(".request").find(".response").hide();
+            } else {
+                form.closest(".request").find(".status").text(code);
+                form.closest(".request").find(".response").text(JSON.stringify(data, null, 4)).show();
+            }
+        });
+    });
+
+
     $.fn.serializeObject = function() {
         var self = this,
         json = {},
@@ -23,7 +113,7 @@ $(function() {
         };
         $.each($(this).serializeArray(), function(){
             // skip invalid keys
-            if(!patterns.validate.test(this.name)){
+            if(!patterns.validate.test(this.name)) {
                 return;
             }
             var k,
@@ -53,77 +143,4 @@ $(function() {
         });
         return json;
     };
-
-    $(".response").hide();
-
-    window.responses = {};
-
-    $(".shared-input.header").change(function() {
-        updateShareds();
-    });
-    $(".shared-link").click(function() {
-        $($(this).attr("href")).find("input").focus();
-    });
-
-    function updateShareds() {
-        $(".shared-input.header").each(function() {
-            name = $(this).attr("data-name");
-            $(".shared.header[data-name=" + name + "]").val($(this).val());
-        });
-    }
-
-    function setValuesFromRequest(request) {
-        $("[data-source-request='" + request + "']").each(function(input) {
-            v = eval("responses['" + request + "']" + $(this).attr("data-source-accessor"));
-            $(this).val(v);
-        });
-        updateShareds();
-    }
-
-    $("h3 [contenteditable=true]").keyup(function() {
-        $(this).parents("form").first().find("input[name='request[url_params][" + $(this).attr("data-name") + "]']").val($(this).text());
-    });
-
-    $("form").submit(function(event) {
-        event.preventDefault();
-
-        var form = $(this);
-        var req = form.serializeObject().request;
-        form.parent(".request").find(".status").html("Requesting...");
-
-        path = req.path;
-        if (req.url_params) {
-            $.each(req.url_params, function(p, v) {
-                path = path.replace(":" + p, v);
-            });
-        }
-
-        $.ajax({
-            url: path,
-            type: req.method,
-            headers: req.headers,
-            data: req.params,
-            dataType: 'json'
-        }).always(function(data, status, error) {
-            if(status == 'success') {
-                code = 200;
-                var key = req.method.toUpperCase() + ":" + req.path.replace(api_explorer_base_url, "");
-                window.responses[key] = data;
-                setValuesFromRequest(key);
-            } else {
-                code = data.status;
-                try {
-                    data = $.parseJSON(data.responseText);
-                } catch(SyntaxError) {
-                }
-            }
-            if (code == 0) {
-                form.parents(".request").find(".status").text("Can't reach server");
-                form.parents(".request").find(".response").hide();
-            } else {
-                form.parents(".request").find(".status").text(code);
-                form.parents(".request").find(".response").text(JSON.stringify(data, null, 4)).show();
-            }
-        });
-    });
 });

@@ -1,3 +1,7 @@
+.hidden {
+    display: none;
+}
+
 .params .params {
     margin-left: 30px;
 }
@@ -17,13 +21,6 @@ h3 input {
     border: none;
     width: 120px;
     text-align: center;
-}
-
-[contentEditable=true]:empty:not(:focus):before{
-    content: attr(data-ph);
-}
-h3 [contentEditable=true]:empty {
-    color: #AAAAAA;
 }
 
 legend {
@@ -53,4 +50,21 @@ label {
 
 fieldset {
     margin-bottom: 5px;
+}
+
+legend, label {
+    position: relative;
+}
+
+.send-toggle {
+    font-size: 80%;
+    cursor: pointer;
+    display: none;
+}
+:hover > .send-toggle {
+    display: inline;
+}
+
+.strikethrough {
+    text-decoration: line-through;
 }
