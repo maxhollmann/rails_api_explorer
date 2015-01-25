@@ -1,10 +1,12 @@
-<% if node.is_a?(ApiExplorer::Request) %>
-  <p><a href="#node-<%= id %>"><%= node.title %></a>
-<% else %>
-  <p><a href="#node-<%= id %>"><%= node.title %></a>
-  <div class="children">
-    <% node.children.each_with_index do |ch, i| %>
-      <%= render 'content_node', node: ch, id: "#{id}-#{i}" %>
-    <% end %>
-  </div>
-<% end %>
+<li>
+  <% if node.is_a?(ApiExplorer::Request) %>
+    <a href="#node-<%= id %>"><%= node.title %></a>
+  <% else %>
+    <a href="#node-<%= id %>"><%= node.title %></a>
+    <ul class="children">
+      <% node.children.each_with_index do |ch, i| %>
+        <%= render 'content_node', node: ch, id: "#{id}-#{i}" %>
+      <% end %>
+    </ul>
+  <% end %>
+</li>

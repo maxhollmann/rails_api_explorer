@@ -6,19 +6,12 @@
 <%= javascript_include_tag "api_explorer/application" %>
 
 <div class="container">
-  <div class="contents">
+  <ul class="contents">
     <% @description.children.each_with_index do |ch, i| %>
       <%= render 'content_node', node: ch, id: i %>
     <% end %>
-  </div>
+  </ul>
 
   <%= render 'shared' %>
-
-  <% @description.children.each_with_index do |ch, i| %>
-    <% if ch.is_a?(ApiExplorer::Request) %>
-      <%= render 'request', req: ch, id: i %>
-    <% else %>
-      <h1>GROUP</h1>
-    <% end %>
-  <% end %>
+  <%= render 'node', node: @description %>
 </div>

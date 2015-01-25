@@ -1,0 +1,14 @@
+<% node.children.each_with_index do |ch, i| %>
+  <% if ch.is_a?(ApiExplorer::Request) %>
+    <%= render 'request', req: ch, id: i %>
+  <% else %>
+    <div class="group row" id="node-<%= i %>">
+      <h1><%= ch.title %></h1>
+      <% if ch.children.any? %>
+        <div class="children">
+          <%= render 'node', node: ch %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

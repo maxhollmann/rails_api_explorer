@@ -5,6 +5,13 @@ module ApiExplorer
       obj.path
     end
 
+    def group(title, &block)
+      group = Group.new(title)
+      proxy = GroupProxy.new(group)
+      proxy.collect(&block) if block_given?
+      obj.add_child group
+    end
+
     def request(method, path, &block)
       method = method.to_s.downcase.to_sym
       req = Request.new(method, path)

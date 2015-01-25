@@ -1,10 +1,11 @@
 module ApiExplorer
   class Group < Node
-    attr_accessor :headers, :params
+    attr_accessor :headers, :params, :title
 
-    def initialize(path, children, shared_headers, shared_params)
+    def initialize(title, path = "", children = [], shared_headers = [], shared_params = [])
       super nil, children, path
 
+      self.title   = title
       self.headers = shared_headers
       self.params  = shared_params
     end

@@ -11,7 +11,7 @@ module ApiExplorer
   mattr_accessor :description, :shared_headers, :shared_params, :auth
 
   def self.describe(&block)
-    self.description = Description.new("", [], [], [])
+    self.description = Description.new("", "", [], [], [])
     proxy = DescriptionProxy.new(description)
     proxy.collect(&block)
     #self.description = Description.new(proxy.path, proxy.children, proxy.shared_headers, proxy.shared_params)
