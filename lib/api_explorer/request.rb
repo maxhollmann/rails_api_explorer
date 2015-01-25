@@ -1,10 +1,11 @@
 module ApiExplorer
-  class Request
-    attr_accessor :method, :path, :params, :headers, :description, :excluded_shared_headers
+  class Request < Node
+    attr_accessor :method, :params, :headers, :description, :excluded_shared_headers
 
     def initialize(method, path, params = [], headers = [], description = "", excluded_shared_headers = [])
+      super nil, nil, path
+
       self.method                  = method.to_s
-      self.path                    = path.to_s
       self.params                  = Array(params)
       self.headers                 = Array(headers)
       self.description             = description
@@ -12,7 +13,7 @@ module ApiExplorer
     end
 
     def url
-      ApiExplorer.base_url + path
+      full_path
     end
 
     def url_params
@@ -29,8 +30,8 @@ module ApiExplorer
       end
     end
 
-    def perform(params = {}, headers = {})
-      RequestPerformer.new(self).perform(params, headers)
+    def title
+      "#{method.upcase} #{path}"
     end
   end
 end

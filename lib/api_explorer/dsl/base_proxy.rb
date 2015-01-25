@@ -1,21 +1,11 @@
 module ApiExplorer
   class BaseProxy
-    attr_accessor :out
+    attr_accessor :obj
 
-    def initialize(objects = [])
-      self.out = Array(objects.clone)
+    def initialize(obj = nil)
+      self.obj = obj
     end
 
-    def collect(&block)
-      instance_eval(&block)
-    end
-
-    def method_missing(method, *args, &block)
-      out << methods.send(method, *args, &block)
-    end
-  end
-
-  class BaseProxy2
     def collect(&block)
       instance_eval(&block)
     end

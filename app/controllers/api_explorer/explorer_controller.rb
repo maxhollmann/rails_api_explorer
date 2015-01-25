@@ -5,11 +5,5 @@ module ApiExplorer
     def index
       @description = ApiExplorer.description
     end
-
-    def perform_request
-      rp = params.require(:request)
-      req = ApiExplorer.description.find_request(rp[:method], rp[:path])
-      @response = ApiExplorer::RequestPerformer.new(req).perform(rp[:params])
-    end
   end
 end

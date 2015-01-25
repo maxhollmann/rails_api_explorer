@@ -1,5 +1,5 @@
 module ApiExplorer
-  class RequestProxy < BaseProxy2
+  class RequestProxy < BaseProxy
     attr_accessor :description, :headers, :params,
       :excluded_shared_headers
 

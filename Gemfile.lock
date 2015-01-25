@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     rails_api_explorer (0.0.1)
-      httparty
       jquery-rails
       rails
 
@@ -50,9 +49,6 @@ GEM
     globalid (0.3.0)
       activesupport (>= 4.1.0)
     hike (1.2.3)
-    httparty (0.13.3)
-      json (~> 1.8)
-      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jquery-rails (4.0.3)
       rails-dom-testing (~> 1.0)
@@ -67,7 +63,6 @@ GEM
     mini_portile (0.6.2)
     minitest (5.5.1)
     multi_json (1.10.1)
-    multi_xml (0.5.5)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     rack (1.6.0)

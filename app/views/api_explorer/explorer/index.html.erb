@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  window.api_explorer_base_url = "<%= ApiExplorer.base_url %>";
+  window.api_explorer_base_url = "<%= @description.base_url %>";
 </script>
 
 <%= stylesheet_link_tag    "api_explorer/application", media: "all" %>
@@ -7,14 +7,18 @@
 
 <div class="container">
   <div class="contents">
-    <% @description.requests.each_with_index do |req, i| %>
-      <p><a href="#request-<%= i %>"><%= req.method.upcase %> <%= req.path %></a>
+    <% @description.children.each_with_index do |ch, i| %>
+      <%= render 'content_node', node: ch, id: i %>
     <% end %>
   </div>
 
   <%= render 'shared' %>
 
-  <% @description.requests.each_with_index do |req, i| %>
-    <%= render 'request', req: req, id: i %>
+  <% @description.children.each_with_index do |ch, i| %>
+    <% if ch.is_a?(ApiExplorer::Request) %>
+      <%= render 'request', req: ch, id: i %>
+    <% else %>
+      <h1>GROUP</h1>
+    <% end %>
   <% end %>
 </div>

@@ -2,7 +2,7 @@
 
   <%= form_for :request, url: request_path do |f| %>
   <%= f.hidden_field :method, value: req.method %>
-  <%= f.hidden_field :path, value: req.url %>
+  <%= f.hidden_field :path, value: req.full_path %>
 
   <%= f.fields_for :url_params do |pf| %>
     <h3>
