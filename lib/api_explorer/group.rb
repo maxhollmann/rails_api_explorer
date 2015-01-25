@@ -8,5 +8,10 @@ module ApiExplorer
       self.shared_headers = shared_headers
       self.shared_params  = shared_params
     end
+
+    def add_child(child)
+      children << child
+      child.parent = self
+    end
   end
 end

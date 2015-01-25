@@ -1,33 +1,25 @@
 module ApiExplorer
   class GroupProxy < BaseProxy
-    attr_accessor :children, :shared_headers, :shared_params, :path
-
-    def initialize
-      self.children       = []
-      self.shared_headers = []
-      self.shared_params  = []
-    end
-
     def path(path = nil)
-      self.path = path if path
-      @path
+      obj.path = path if path
+      obj.path
     end
 
     def request(method, path, &block)
       method = method.to_s.downcase.to_sym
       proxy = RequestProxy.new
       proxy.collect(&block) if block_given?
-      children << Request.new(method, path,
-                              proxy.params, proxy.headers,
-                              proxy.description,
-                              proxy.excluded_shared_headers)
+      obj.add_child Request.new(method, path,
+                                proxy.params, proxy.headers,
+                                proxy.description,
+                                proxy.excluded_shared_headers)
     end
 
     def shared(&block)
       proxy = RequestProxy.new
       proxy.collect(&block)
-      self.shared_headers = proxy.headers
-      self.shared_params  = proxy.params
+      obj.shared_headers = proxy.headers
+      obj.shared_params  = proxy.params
     end
 
     def get(path, &block)
