@@ -3,7 +3,7 @@
 <% end %>
 
 <%= f.fields_for :headers do |hf| %>
-  <% @description.shared_headers.each do |h| %>
+  <% @description.headers.each do |h| %>
     <% next if request.excluded_shared_headers.include?(h.name) %>
 
     <!--%= hf.label h.name, h.name %-->
