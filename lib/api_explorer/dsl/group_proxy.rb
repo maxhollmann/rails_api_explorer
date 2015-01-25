@@ -7,19 +7,15 @@ module ApiExplorer
 
     def request(method, path, &block)
       method = method.to_s.downcase.to_sym
-      proxy = RequestProxy.new
+      req = Request.new(method, path)
+      proxy = RequestProxy.new(req)
       proxy.collect(&block) if block_given?
-      obj.add_child Request.new(method, path,
-                                proxy.params, proxy.headers,
-                                proxy.description,
-                                proxy.excluded_shared_headers)
+      obj.add_child req
     end
 
     def shared(&block)
-      proxy = RequestProxy.new
+      proxy = RequestProxy.new(obj)
       proxy.collect(&block)
-      obj.shared_headers = proxy.headers
-      obj.shared_params  = proxy.params
     end
 
     def get(path, &block)

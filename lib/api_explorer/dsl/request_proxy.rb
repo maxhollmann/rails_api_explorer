@@ -1,30 +1,23 @@
 module ApiExplorer
   class RequestProxy < BaseProxy
-    attr_accessor :description, :headers, :params,
-      :excluded_shared_headers
-
-    def initialize(headers = [], params = [])
-      self.headers = headers
-      self.params  = params
-      self.excluded_shared_headers = []
-    end
-
     def exclude_shared_header(name)
-      excluded_shared_headers << name
+      obj.excluded_shared_headers << name
     end
 
     def desc(description)
-      self.description = description
+      obj.description = description
     end
 
     def param(name, type = nil, options = {}, &block)
       desc = options.fetch(:desc, "")
       if type.nil? && block_given?
-        proxy = RequestProxy.new
+        param = Parameter.new(name, [], desc)
+        param.type = :hash
+        proxy = RequestProxy.new(param)
         proxy.collect(&block)
-        params << Parameter.new(name, proxy.params, desc)
+        obj.params << param
       else
-        params << Parameter.new(name, type, desc)
+        obj.params << Parameter.new(name, type, desc)
       end
     end
 
@@ -42,7 +35,7 @@ module ApiExplorer
     end
 
     def header(name, options = {})
-      headers << Header.new(name, options)
+      obj.headers << Header.new(name, options)
     end
   end
 end
