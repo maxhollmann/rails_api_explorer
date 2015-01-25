@@ -1,12 +1,13 @@
 <% node.children.each_with_index do |ch, i| %>
   <% if ch.is_a?(ApiExplorer::Request) %>
-    <%= render 'request', req: ch, id: i %>
+    <%= render 'request', req: ch, id: i, depth: depth + 1 %>
   <% else %>
     <div class="group row" id="node-<%= i %>">
-      <h1><%= ch.title %></h1>
+      <% header_n = [1 + depth, 2].min %>
+      <h<%= header_n %>><%= ch.title %></h<%= header_n %>>
       <% if ch.children.any? %>
         <div class="children">
-          <%= render 'node', node: ch %>
+          <%= render 'node', node: ch, depth: depth + 1 %>
         </div>
       <% end %>
     </div>
