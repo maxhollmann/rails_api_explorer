@@ -1,10 +1,12 @@
 <div class="row">
-  <h3>Shared headers</h3>
+  <div class="col-sm-12">
+    <h3>Shared headers</h3>
 
-  <% @description.shared_headers.each do |h| %>
-    <div id="shared-header-<%= h.name %>">
-      <%= label_tag h.name, h.name %>:
-      <%= text_field_tag h.name, "", class: "shared-input header", data: { name: h.name, source_request: h.source[:request], source_accessor: h.source[:accessor] } %>
-    </div>
-  <% end %>
+    <% @description.headers.each do |h| %>
+      <div id="shared-header-<%= h.name %>">
+        <%= label_tag h.name, h.name %>:
+        <%= text_field_tag h.name, "", class: "shared-input header", data: { name: h.name, source_request: h.source[:request], source_accessor: h.source[:accessor] } %>
+      </div>
+    <% end %>
+  </div>
 </div>

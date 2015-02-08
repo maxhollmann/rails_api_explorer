@@ -8,7 +8,7 @@
       </legend>
         <div class="description"><%= simple_format p.description %></div>
         <div class="param-inputs">
-          <%= render 'api_explorer/explorer/form/params', name: p.name, params: p.children, f: f %>
+          <%= render 'api_explorer/explorer/form/params', name: p.name, params: p.params, f: f %>
         </div>
       }
     </fieldset>

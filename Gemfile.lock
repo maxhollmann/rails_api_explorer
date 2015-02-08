@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_api_explorer (0.0.1)
+    rails_api_explorer (0.0.1.pre.1)
       jquery-rails
       rails
 

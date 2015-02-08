@@ -5,12 +5,12 @@ module ApiExplorer
       self.description = description
       if type_or_children.is_a?(Array)
         self.type = :hash
-        self.children = type_or_children
+        self.params = type_or_children
       else
-        self.type = type_or_children.to_sym
+        self.type = type_or_children.to_s.to_sym
       end
     end
 
-    attr_accessor :name, :type, :children, :description
+    attr_accessor :name, :type, :params, :description
   end
 end
