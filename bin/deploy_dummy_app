@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+git subtree push --prefix spec/dummy heroku master && \
+heroku run rake db:migrate -a rails-api-explorer

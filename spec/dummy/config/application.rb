@@ -1,12 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
-# Pick the frameworks you want:
-require "active_record/railtie"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "action_view/railtie"
-require "sprockets/railtie"
-# require "rails/test_unit/railtie"
+require "rails/all"
 
 Bundler.require(*Rails.groups)
 require "api_explorer"
@@ -26,4 +20,3 @@ module Dummy
     # config.i18n.default_locale = :de
   end
 end
-
