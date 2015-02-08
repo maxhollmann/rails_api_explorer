@@ -10,7 +10,7 @@ Pull requests are more than welcome!
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rails_api_explorer', github: 'maxhollmann/rails_api_explorer'
+gem 'rails_api_explorer'
 ```
 
 And then execute:
@@ -47,14 +47,16 @@ ApiExplorer.describe do
     end
   end
 
-  get 'posts' do
-    integer 'page', desc: "Optional."
-  end
+  group "Posts" do
+    get 'posts' do
+      integer 'page', desc: "Optional."
+    end
 
-  patch 'posts/:id' do
-    struct 'post' do
-      string 'title'
-      string 'body'
+    patch 'posts/:id' do
+      struct 'post' do
+        string 'title'
+        string 'body'
+      end
     end
   end
 end
