@@ -1,0 +1,15 @@
+development: &development
+  adapter: postgresql
+  encoding: utf8
+  database: api_explorer_dummy_development
+  username: postgres
+  password: XXXXXXX
+  host: localhost
+
+test:
+  <<: *development
+  database: api_explorer_dummy_test
+
+production: &production
+  <<: *development
+  database: api_explorer_dummy_production
