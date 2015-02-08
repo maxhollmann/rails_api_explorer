@@ -1,15 +1,17 @@
 <% node.children.each_with_index do |ch, i| %>
   <% if ch.is_a?(ApiExplorer::Request) %>
-    <%= render 'request', req: ch, id: i, depth: depth + 1 %>
+    <%= render 'request', req: ch, id: "#{id}-#{i}", depth: depth + 1 %>
   <% else %>
-    <div class="group row" id="node-<%= i %>">
-      <% header_n = [1 + depth, 2].min %>
-      <h<%= header_n %>><%= ch.title %></h<%= header_n %>>
-      <% if ch.children.any? %>
-        <div class="children">
-          <%= render 'node', node: ch, depth: depth + 1 %>
-        </div>
-      <% end %>
+    <div class="group row" id="node<%= id %>-<%= i %>">
+      <div class="col-sm-12">
+        <% header_n = [1 + depth, 2].min %>
+        <h<%= header_n %>><%= ch.title %></h<%= header_n %>>
+        <% if ch.children.any? %>
+          <div class="children">
+            <%= render 'node', id: "#{id}-#{i}", node: ch, depth: depth + 1 %>
+          </div>
+        <% end %>
+      </div>
     </div>
   <% end %>
 <% end %>

@@ -5,13 +5,16 @@
 <%= stylesheet_link_tag    "api_explorer/application", media: "all" %>
 <%= javascript_include_tag "api_explorer/application" %>
 
-<div class="container">
-  <ul class="contents">
-    <% @description.children.each_with_index do |ch, i| %>
-      <%= render 'content_node', node: ch, id: i %>
-    <% end %>
-  </ul>
-
-  <%= render 'shared' %>
-  <%= render 'node', node: @description, depth: 0 %>
+<div class="row">
+  <div class="col-sm-12">
+    <h1>Index</h1>
+    <ul class="contents">
+      <% @description.children.each_with_index do |ch, i| %>
+        <%= render 'content_node', node: ch, id: i %>
+      <% end %>
+    </ul>
+  </div>
 </div>
+
+<%= render 'shared' %>
+<%= render 'node', node: @description, id: "", depth: 0 %>
