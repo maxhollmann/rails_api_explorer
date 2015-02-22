@@ -6,6 +6,7 @@ $(function() {
    */
   function scroll_if_anchor(href) {
       href = typeof(href) == "string" ? href : $(this).attr("href");
+      if (typeof(href) == 'undefined') return
 
       var fromTop = 0;
 

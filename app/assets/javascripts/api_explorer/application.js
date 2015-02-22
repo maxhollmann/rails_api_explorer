@@ -12,4 +12,5 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require api_explorer/serialize_object
 //= require_tree .
