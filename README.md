@@ -2,6 +2,8 @@
 
 Provides a simple DSL to describe your API, and let's you mount an interactive sandbox to explore and test it.
 
+[Here's a demo.](http://rails-api-explorer.herokuapp.com)
+
 This project is in the very early stages of development, and I mainly extend it to scratch my own itches.
 Pull requests are more than welcome!
 
