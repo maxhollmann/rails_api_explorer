@@ -1,20 +1,22 @@
-<script type="text/javascript">
-  window.api_explorer_base_url = "<%= @description.base_url %>";
-</script>
+<div class="api-explorer">
+  <script type="text/javascript">
+    window.api_explorer_base_url = "<%= @description.base_url %>";
+  </script>
 
-<%= stylesheet_link_tag    "api_explorer/application", media: "all" %>
-<%= javascript_include_tag "api_explorer/application" %>
+  <%= stylesheet_link_tag    "api_explorer/application", media: "all" %>
+  <%= javascript_include_tag "api_explorer/application" %>
 
-<div class="row">
-  <div class="col-sm-12">
-    <h1>Index</h1>
-    <ul class="contents">
-      <% @description.children.each_with_index do |ch, i| %>
-        <%= render 'content_node', node: ch, id: i %>
-      <% end %>
-    </ul>
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Index</h1>
+      <ul class="contents">
+        <% @description.children.each_with_index do |ch, i| %>
+          <%= render 'content_node', node: ch, id: i %>
+        <% end %>
+      </ul>
+    </div>
   </div>
-</div>
 
-<%= render 'shared' %>
-<%= render 'node', node: @description, id: "", depth: 0 %>
+  <%= render 'shared' %>
+  <%= render 'node', node: @description, id: "", depth: 0 %>
+</div>

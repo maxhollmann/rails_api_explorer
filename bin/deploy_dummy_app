@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+git push heroku `git subtree split --prefix spec/dummy develop`:master --force && \
+heroku run rake db:migrate

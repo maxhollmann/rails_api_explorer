@@ -1,70 +1,44 @@
-.hidden {
-    display: none;
-}
-
-.params .params {
-    margin-left: 30px;
-}
-
-.param-inputs .param-inputs {
-    margin-left: 30px;
-}
-
-.param-inputs fieldset {
-    border: none;
-    padding: 0;
-}
-.param-inputs input {
-    border: none;
-}
-h3 input {
-    border: none;
-    width: 120px;
-    text-align: center;
-}
-
-legend {
-    margin-bottom: 5px;
-}
-.param-inputs legend {
-    font-size: 100%;
-    border: none;
-    margin-bottom: 0;
-}
-label {
-    font-weight: normal;
-    margin-bottom: 0;
-}
-
-.response {
+.api-explorer .hidden {
+  display: none; }
+.api-explorer .params .params {
+  margin-left: 30px; }
+.api-explorer .param-inputs .param-inputs {
+  margin-left: 30px; }
+.api-explorer .param-inputs fieldset {
+  border: none;
+  padding: 0; }
+.api-explorer .param-inputs input {
+  border: none; }
+.api-explorer h3 input {
+  border: none;
+  width: 120px;
+  text-align: center; }
+.api-explorer legend {
+  margin-bottom: 5px; }
+.api-explorer .param-inputs legend {
+  font-size: 100%;
+  border: none;
+  margin-bottom: 0; }
+.api-explorer label {
+  font-weight: normal;
+  margin-bottom: 0; }
+.api-explorer .response {
   border: solid 1px black;
   background-color: #CCC;
   padding: 20px;
   max-height: 400px;
-  overflow: scroll;
-}
-
-.description {
-    font-size: 80%;
-}
-
-fieldset {
-    margin-bottom: 5px;
-}
-
-legend, label {
-    position: relative;
-}
-
-.send-toggle {
-    font-size: 80%;
-    cursor: pointer;
-    display: none;
-}
-:hover > .send-toggle {
-    display: inline;
-}
-
-.strikethrough {
-    text-decoration: line-through;
-}
+  overflow: scroll; }
+.api-explorer .description {
+  font-size: 80%; }
+.api-explorer fieldset {
+  margin-bottom: 5px; }
+.api-explorer legend, .api-explorer label {
+  position: relative; }
+.api-explorer .send-toggle {
+  font-size: 80%;
+  cursor: pointer;
+  display: none; }
+.api-explorer :hover > .send-toggle {
+  display: inline; }
+.api-explorer .strikethrough {
+  text-decoration: line-through; }
