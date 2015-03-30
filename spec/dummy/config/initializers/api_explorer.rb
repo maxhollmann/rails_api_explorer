@@ -33,14 +33,14 @@ ApiExplorer.describe do
     post 'posts' do
       desc "Create a post."
       struct 'post' do
-        string 'title'
+        string 'title', desc: "Required."
         string 'body'
       end
     end
 
     patch 'posts/:id' do
       struct 'post' do
-        string 'title'
+        string 'title', desc: "Required."
         string 'body'
       end
     end

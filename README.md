@@ -4,8 +4,7 @@ Provides a simple DSL to describe your API, and let's you mount an interactive s
 
 [Here's a demo.](http://rails-api-explorer.herokuapp.com)
 
-This project is in the very early stages of development, and I mainly extend it to scratch my own itches.
-Pull requests are more than welcome!
+This project is in the early stages of development and missing some features. Pull requests are more than welcome!
 
 ## Installation
 
@@ -24,14 +23,9 @@ And then execute:
 Describe your API in `config/initializers/api_explorer.rb`:
 
 ```ruby
-ApiExplorer.base_url = case Rails.env
-                       when 'development'
-                         'http://localhost:3000/api/'
-                       when 'production'
-                         'http://example.com/api/'
-                       end
-
 ApiExplorer.describe do
+  base_url 'http://localhost:3000/api/'
+
   shared do
     header 'X-AUTH-TOKEN', source: { request: "POST:users/sign_in", accessor: "['auth_token']"}
     # The source option makes the value get set automatically when a request to the given url succeeds.
@@ -39,7 +33,7 @@ ApiExplorer.describe do
   end
 
   post 'users/sign_in' do
-    desc "Describe this action."
+    desc "Authenticate a user, returns the auth token. Anything except blank values will work for this example."
 
     exclude_shared_header 'X-AUTH-TOKEN'
 
@@ -50,13 +44,23 @@ ApiExplorer.describe do
   end
 
   group "Posts" do
-    get 'posts' do
-      integer 'page', desc: "Optional."
+    get 'posts'
+
+    get 'posts/:id' do
+      desc "Returns details for a single post."
+    end
+
+    post 'posts' do
+      desc "Create a post."
+      struct 'post' do
+        string 'title', desc: "Required."
+        string 'body'
+      end
     end
 
     patch 'posts/:id' do
       struct 'post' do
-        string 'title'
+        string 'title', desc: "Required."
         string 'body'
       end
     end

@@ -10,3 +10,4 @@ spec/dummy/config/database.yml
 **/vendor/bundle
 #*
 .#*
+.sass-cache/

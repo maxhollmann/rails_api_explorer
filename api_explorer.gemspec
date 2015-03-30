@@ -18,11 +18,17 @@ Gem::Specification.new do |s|
     "{app,config,db,lib}/**/*",
     "MIT-LICENSE",
     "Rakefile",
-    "README.md"
+    "README.md",
+  ]
+  s.files -= Dir[
+    "app/assets/**/*.coffee",
+    "app/assets/**/*.scss",
   ]
 
   s.add_dependency "rails"#, "~> 3.1.0"
   s.add_dependency 'jquery-rails'
 
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "coffee-script"
+  s.add_development_dependency "sass"
 end
