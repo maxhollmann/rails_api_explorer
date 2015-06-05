@@ -14,6 +14,5 @@ module ApiExplorer
     self.description = Description.new("", "", [], [], [])
     proxy = DescriptionProxy.new(description)
     proxy.collect(&block)
-    #self.description = Description.new(proxy.path, proxy.children, proxy.shared_headers, proxy.shared_params)
   end
 end

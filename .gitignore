@@ -11,3 +11,4 @@ spec/dummy/config/database.yml
 #*
 .#*
 .sass-cache/
+/*.gem
