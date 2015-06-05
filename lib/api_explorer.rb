@@ -8,7 +8,7 @@ require "api_explorer/request"
 require "api_explorer/dsl"
 
 module ApiExplorer
-  mattr_accessor :description, :shared_headers, :shared_params, :auth
+  mattr_accessor :description, :auth
 
   def self.describe(&block)
     self.description = Description.new("", "", [], [], [])

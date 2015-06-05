@@ -1,10 +1,8 @@
 # rails_api_explorer
 
-Provides a simple DSL to describe your API, and let's you mount an interactive sandbox to explore and test it.
+Provides a simple DSL to describe your JSON API, and let's you mount an interactive sandbox to explore and test it.
 
 [Here's a demo.](http://rails-api-explorer.herokuapp.com)
-
-This project is in the early stages of development and missing some features. Pull requests are more than welcome!
 
 ## Installation
 
@@ -18,8 +16,21 @@ And then execute:
 
     $ bundle
 
+
 ## Usage
 
+### Assets
+Include the JavaScript in your `application.js`, make sure to require it *after* jQuery:
+
+    //= require jquery
+    //= require api_explorer
+
+Include the CSS in `application.css`:
+
+    *= require api_explorer
+
+
+### Describe your API
 Describe your API in `config/initializers/api_explorer.rb`:
 
 ```ruby
@@ -74,7 +85,7 @@ Then mount it in your `routes.rb`:
 mount ApiExplorer::Engine => '/api/explore', as: 'api_explorer'
 ```
 
-
+### Access control
 If you don't want the public to access the explorer, you can provide a lambda that will be executed in the `before_filter` of the controller:
 
 ```ruby
@@ -84,6 +95,7 @@ ApiExplorer.auth = lambda do
 end
 ```
 
+## Notes
 The explorer is rendered within your application layout and uses bootstrap 3 classes, so it's prettier if you have that included.
 Bootstrap is optional, but it requires jQuery.
 

@@ -13,7 +13,7 @@ gem 'turbolinks'
 
 gem 'spring', group: :development
 
-# gem 'rails_api_explorer', path: '../..'
-gem 'rails_api_explorer'
+gem 'rails_api_explorer', path: '../..'
+# gem 'rails_api_explorer'
 
 gem 'rails_12factor', group: :production

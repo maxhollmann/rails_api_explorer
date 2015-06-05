@@ -1,8 +1,6 @@
 $ ->
   $(".hidden").hide().removeClass("hidden")
 
-  window.responses = {}
-
   $(".shared-input.header").change ->
     updateShareds()
 

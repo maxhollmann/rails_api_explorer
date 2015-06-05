@@ -6,8 +6,6 @@
   <% @description.headers.each do |h| %>
     <% next if request.excluded_shared_headers.include?(h.name) %>
 
-    <!--%= hf.label h.name, h.name %-->
-    <!--%= raw " (<a class='shared-link' href='#shared-header-#{h.name}'>shared</a>)" %-->
     <%= hf.hidden_field h.name, class: "shared header", data: { name: h.name } %>
   <% end %>
 <% end %>
