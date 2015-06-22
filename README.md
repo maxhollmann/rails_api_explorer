@@ -19,17 +19,6 @@ And then execute:
 
 ## Usage
 
-### Assets
-Include the JavaScript in your `application.js`, make sure to require it *after* jQuery:
-
-    //= require jquery
-    //= require api_explorer
-
-Include the CSS in `application.css`:
-
-    *= require api_explorer
-
-
 ### Describe your API
 Describe your API in `config/initializers/api_explorer.rb`:
 
@@ -94,10 +83,6 @@ ApiExplorer.auth = lambda do
   current_user.admin? or redirect_to main_app.root_path
 end
 ```
-
-## Notes
-The explorer is rendered within your application layout and uses bootstrap 3 classes, so it's prettier if you have that included.
-Bootstrap is optional, but it requires jQuery.
 
 ## Contributing
 
