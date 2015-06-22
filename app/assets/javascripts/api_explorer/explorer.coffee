@@ -1,7 +1,9 @@
 $ ->
-  $(".hidden").hide().removeClass("hidden")
+  window.responses = {}
 
-  $(".shared-input.header").change ->
+  $(".api-explorer .hidden").hide().removeClass("hidden")
+
+  $(".api-explorer .shared-input.header").change ->
     updateShareds()
 
   updateShareds = ->
@@ -34,7 +36,7 @@ $ ->
     if send
       setState(param.parents(".param"), true) # enable parents
 
-  $("form").submit (event) ->
+  $(".api-explorer form").submit (event) ->
     event.preventDefault()
 
     form = $(this)
