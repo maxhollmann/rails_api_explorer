@@ -1,3 +1,3 @@
 module ApiExplorer
-  VERSION = "0.0.3.pre.1"
+  VERSION = "0.0.4.pre.1"
 end
