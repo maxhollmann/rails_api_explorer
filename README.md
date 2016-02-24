@@ -4,6 +4,8 @@ Provides a simple DSL to describe your JSON API, and let's you mount an interact
 
 [Here's a demo.](http://rails-api-explorer.herokuapp.com)
 
+[![Gem Version](https://badge.fury.io/rb/rails_api_explorer.svg)](https://badge.fury.io/rb/rails_api_explorer)
+
 ## Installation
 
 Add this line to your application's Gemfile:
